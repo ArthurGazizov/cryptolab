@@ -30,7 +30,6 @@ public class Processor<E> {
       consumer.apply(message, 0, message.length, processed, param);
     } else {
       int blocksCount = (processed.length / BLOCK_SIZE) + (processed.length % BLOCK_SIZE == 0 ? 0 : 1);
-      //System.err.println("threads: " + blocksCount);
       ExecutorService executorService = Executors.newFixedThreadPool(blocksCount);
       for (int threadId = 0; threadId < blocksCount; threadId++) {
         final int startIndex = threadId * BLOCK_SIZE;
