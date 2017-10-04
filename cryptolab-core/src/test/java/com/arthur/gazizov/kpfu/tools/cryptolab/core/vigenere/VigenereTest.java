@@ -23,6 +23,7 @@ public class VigenereTest extends AbstractTest {
   @Override
   public Key generateKey() {
     byte[] offsets = new byte[(Math.abs(ThreadLocalRandom.current().nextInt()) % 1000) + 1];
+    ThreadLocalRandom.current().nextBytes(offsets);
     return VigenereKey.Builder
             .aVigenereKey()
             .offsets(offsets)

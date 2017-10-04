@@ -42,6 +42,30 @@ public abstract class AbstractTest {
     Assert.assertArrayEquals(originalMessage, decodedMessage.getBytes());
   }
 
+  @Test
+  public void simpleTest() {
+    String textMessage = "Hello, World!";
+    byte[] bytes = textMessage.getBytes();
+
+    Message message = boxMessage(bytes);
+    Key generatedKey = generateKey();
+
+    Message encodedMessage = cryptoFactory
+            .encoder()
+            .encode(message, generatedKey);
+
+    String encodedTextMessage = new String(encodedMessage.getBytes());
+
+    Assert.assertNotEquals(textMessage, encodedTextMessage);
+
+    Message decodedMessage = cryptoFactory
+            .decoder()
+            .decode(encodedMessage, generatedKey);
+
+    String decodedTextMessage = new String(decodedMessage.getBytes());
+    Assert.assertEquals(textMessage, decodedTextMessage);
+  }
+
   public abstract Supplier<CryptoFactory> getCryptoFactorySupplier();
 
   protected Message boxMessage(byte[] message) {

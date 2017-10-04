@@ -12,7 +12,7 @@ public class VigenereUtils {
   }
 
   public static byte[] decode(byte[] message, byte[] offsets) {
-    return ProcessUtils.process(message, offsets, VigenereUtils::encode);
+    return ProcessUtils.process(message, offsets, VigenereUtils::decode);
   }
 
   private static void encode(byte[] message
