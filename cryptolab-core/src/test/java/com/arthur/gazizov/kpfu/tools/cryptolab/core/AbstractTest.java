@@ -6,6 +6,7 @@ import com.arthur.gazizov.kpfu.tools.cryptolab.core.bean.impl.SimpleMessage;
 import com.arthur.gazizov.kpfu.tools.cryptolab.core.factory.CryptoFactory;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -16,7 +17,7 @@ import java.util.function.Supplier;
  * Created on 04.10.17.
  */
 public abstract class AbstractTest {
-  private static final int TEST_MESSAGE_LENGTH = 10_000;
+  private static final int TEST_MESSAGE_LENGTH = 10_000_000;
   protected CryptoFactory cryptoFactory;
 
   @Before
@@ -32,6 +33,7 @@ public abstract class AbstractTest {
     Message message = boxMessage(originalMessage);
     Key generatedKey = generateKey();
 
+    long l = System.currentTimeMillis();
     Message encodedMessage = cryptoFactory
             .encoder()
             .encode(message, generatedKey);
@@ -39,10 +41,13 @@ public abstract class AbstractTest {
     Message decodedMessage = cryptoFactory
             .decoder()
             .decode(encodedMessage, generatedKey);
+
+    System.err.println(System.currentTimeMillis() - l);
     Assert.assertArrayEquals(originalMessage, decodedMessage.getBytes());
   }
 
   @Test
+  @Ignore
   public void simpleTest() {
     String textMessage = "Hello, World!";
     byte[] bytes = textMessage.getBytes();

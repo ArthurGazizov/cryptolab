@@ -11,8 +11,8 @@ import java.util.concurrent.TimeUnit;
  * Created on 04.10.17.
  */
 public class Processor<E> {
-  private static final int MULTITHREADING_USING_THRESHOLD = 2 * 1024;
-  private static final int BLOCK_SIZE = 1024;
+  private static final int MULTITHREADING_USING_THRESHOLD = 2 * 1024 * 1024;
+  private static final int BLOCK_SIZE = 1024 * 1024;
 
   private Consumer5<byte[], Integer, Integer, byte[], E> consumer;
 
@@ -30,6 +30,7 @@ public class Processor<E> {
       consumer.apply(message, 0, message.length, processed, param);
     } else {
       int blocksCount = (processed.length / BLOCK_SIZE) + (processed.length % BLOCK_SIZE == 0 ? 0 : 1);
+      //System.err.println("threads: " + blocksCount);
       ExecutorService executorService = Executors.newFixedThreadPool(blocksCount);
       for (int threadId = 0; threadId < blocksCount; threadId++) {
         final int startIndex = threadId * BLOCK_SIZE;
