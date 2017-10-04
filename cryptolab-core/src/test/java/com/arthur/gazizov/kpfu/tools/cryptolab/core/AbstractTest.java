@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Supplier;
 
 /**
  * @author Arthur Gazizov (Cinarra Systems)
@@ -20,7 +21,7 @@ public abstract class AbstractTest {
 
   @Before
   public void init() {
-    cryptoFactory = getCryptoFactory();
+    cryptoFactory = getCryptoFactorySupplier().get();
   }
 
   @Test
@@ -41,7 +42,7 @@ public abstract class AbstractTest {
     Assert.assertArrayEquals(originalMessage, decodedMessage.getBytes());
   }
 
-  public abstract CryptoFactory getCryptoFactory();
+  public abstract Supplier<CryptoFactory> getCryptoFactorySupplier();
 
   protected Message boxMessage(byte[] message) {
     return SimpleMessage.Builder

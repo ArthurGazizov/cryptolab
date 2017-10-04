@@ -8,7 +8,7 @@ import com.arthur.gazizov.kpfu.tools.cryptolab.core.service.encoder.Encoder;
  * @author Arthur Gazizov (Cinarra Systems)
  * Created on 04.10.17.
  */
-public abstract class AbstractCoder<T extends Message, E extends Key> implements Encoder {
+public abstract class AbstractEncoder<T extends Message, E extends Key> implements Encoder {
   @SuppressWarnings("unchecked")
   @Override
   public Message encode(Message message, Key key) {
